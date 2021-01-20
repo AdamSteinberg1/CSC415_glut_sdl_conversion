@@ -1,3 +1,9 @@
-# GLUT-SDL Conversion
+# house
 
-Converting the house project from CSC 315 from GLUT to SDL.
+Project 3 for CSC 315
+
+### Run Instructions
+```
+make
+./house
+```
