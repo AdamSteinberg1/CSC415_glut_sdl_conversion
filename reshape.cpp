@@ -66,10 +66,4 @@ void changeProjection()
   glMatrixMode (GL_MODELVIEW);
 }
 
-void reshape (int w, int h)
-{
-   glViewport (0, 0, (GLsizei) w, (GLsizei) h);
-   changeProjection();
-}
-
 #endif

@@ -1,7 +1,7 @@
 CC = g++
-LDLIBS =  -lglut -lGL -lGLU -lm
-HEADERS = opengl.h structs.h constants.h prototypes.h globals.h
-OBJS = init.o defineHouse.o drawHouse.o drawAxes.o reshape.o display.o updateRotations.o keyboardmouse.o drawHelloWorld.o drawText.o menu.o
+LDLIBS =  -lglut -lGL -lGLU -lm -lSDL
+HEADERS = opengl.h structs.h constants.h prototypes.h
+OBJS = init.o defineHouse.o drawHouse.o drawAxes.o reshape.o display.o updateRotations.o keyboardmouse.o drawHelloWorld.o drawText.o
 
 debug ?= n
 ifeq ($(debug), y)
@@ -45,10 +45,7 @@ updateRotations.o : updateRotations.cpp $(HEADERS)
 	$(CC) $(CFLAGS) updateRotations.cpp -c
 
 keyboardmouse.o : keyboardmouse.cpp $(HEADERS)
-	$(CC) -c keyboardmouse.cpp
-
-menu.o : menu.cpp $(HEADERS)
-	$(CC) -c menu.cpp
+	$(CC) $(CFLAGS) keyboardmouse.cpp -c
 
 clean:
 	rm *.o

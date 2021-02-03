@@ -1,7 +1,6 @@
 #include "opengl.h"
+#include "constants.h"
 #include "prototypes.h"
-extern const int WINDOW_WIDTH;
-extern const int WINDOW_HEIGHT;
 
 extern float angularVelocityX;
 extern float angularVelocityY;
@@ -13,6 +12,12 @@ extern float camPosX;
 extern float camPosY;
 extern float camPosZ;
 extern int viewMode;
+
+bool wireframeEnabled = false;
+bool axisEnabled = true;
+bool helloWorldEnabled = true;
+int viewMode = 1;
+
 
 
 void modifyVelocity(int x, int y, bool increase)
@@ -88,77 +93,102 @@ void modifyVelocity(int x, int y, bool increase)
   }
 }
 
-void mouse(int button, int state, int x, int y)
+
+void handle_mouse_click(Uint32 button, Sint32 x, Sint32 y)
 {
-// Handler for mouse interaction
-    switch (button)
-    {
-        case GLUT_LEFT_BUTTON:
-            if (state == GLUT_DOWN)
-            {
-                modifyVelocity(x,WINDOW_HEIGHT-y,true);
-            }
-            break;
+  // Handler for mouse interaction
+      switch (button)
+      {
+          case SDL_BUTTON_LEFT:
+              modifyVelocity(x,WINDOW_HEIGHT-y,true);
+              break;
 
 
-        case GLUT_RIGHT_BUTTON:
-            if (state == GLUT_DOWN)
-            {
+          case SDL_BUTTON_RIGHT:
               modifyVelocity(x,WINDOW_HEIGHT-y,false);
-            }
-            break;
+              break;
+      }
+}
+
+
+
+void handle_key_down( SDL_keysym* keysym )
+{
+  //handler for key presses
+    switch( keysym->sym )
+    {
+      case SDLK_ESCAPE: //quit
+      case SDLK_q:
+          quit_program( 0 );
+          break;
+
+      case SDLK_r:  //reset
+        if(SDL_GetModState() & KMOD_SHIFT) //if shift is pressed i.e. capital 'R'
+        {
+          camPosX = 6.0;
+          camPosY = 5.0;
+          camPosZ = 3.0;
+        }
+        angleX = 0.0;
+        angleY = 0.0;
+        angleZ = 0.0;
+      case SDLK_s:  //stop roation
+        angularVelocityX = 0.0;
+        angularVelocityY = 0.0;
+        angularVelocityZ = 0.0;
+        break;
+
+      case SDLK_PAGEUP: //zoom in
+        if(viewMode ==1)
+        {
+          camPosX *= 0.9;
+          camPosY *= 0.9;
+          camPosZ *= 0.9;
+          changeProjection();
+        }
+        break;
+      case SDLK_PAGEDOWN: //zoom out
+        if(viewMode ==1)
+        {
+          camPosX *= 1.1;
+          camPosY *= 1.1;
+          camPosZ *= 1.1;
+          changeProjection();
+        }
+        break;
+
+
+      //The following keys are functions that used to be part of the menu
+
+      //changing the projection
+      case SDLK_1: //Perspective
+        viewMode = 1;
+        changeProjection();
+        break;
+      case SDLK_2: //Orthographic
+        viewMode = 2;
+        changeProjection();
+        break;
+      case SDLK_3: //Custom
+        viewMode = 3;
+        changeProjection();
+        break;
+
+      case SDLK_w: //wireframe
+        wireframeEnabled = !wireframeEnabled;
+        break;
+
+      case SDLK_a: //axis
+        axisEnabled = !axisEnabled;
+        break;
+
+      case SDLK_h: //Hello World on roof
+        helloWorldEnabled = !helloWorldEnabled;
+        break;
+
+
+      default:
+          break;
     }
-}
 
-
-
-void keyboard( unsigned char key, int x, int y )
-{
-  switch (key)
-  {
-    case 'q':
-    case 'Q':
-      exit(0);
-      break;
-
-    case 'R':
-      camPosX = 6.0;
-      camPosY = 5.0;
-      camPosZ = 3.0;
-    case 'r':
-      angleX = 0.0;
-      angleY = 0.0;
-      angleZ = 0.0;
-
-    case 's':
-    case 'S':
-      angularVelocityX = 0.0;
-      angularVelocityY = 0.0;
-      angularVelocityZ = 0.0;
-      break;
-
-
-  }
-}
-
-void keyboardSpecial(int key, int x, int y)
-{
-  //we only want to move the camera in perspective mode
-  if(viewMode != 1)
-    return;
-
-  switch (key)
-  {
-    case GLUT_KEY_PAGE_UP:
-      camPosX *= 0.9;
-      camPosY *= 0.9;
-      camPosZ *= 0.9;
-      break;
-    case GLUT_KEY_PAGE_DOWN:
-      camPosX *= 1.1;
-      camPosY *= 1.1;
-      camPosZ *= 1.1;
-      break;
-  }
-  changeProjection();
 }

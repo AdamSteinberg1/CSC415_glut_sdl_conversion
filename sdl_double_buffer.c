@@ -3,7 +3,7 @@
  * (c) Michael Vance, 2000
  * briareos@lokigames.com
  *
- * Distributed under terms of the LGPL. 
+ * Distributed under terms of the LGPL.
  */
 
 #include <SDL/SDL.h>
@@ -31,11 +31,11 @@ static void quit_tutorial( int code )
 static void handle_key_down( SDL_keysym* keysym )
 {
 
-    /* 
+    /*
      * We're only interested if 'Esc' has
      * been presssed.
      *
-     * EXERCISE: 
+     * EXERCISE:
      * Handle the arrow keys and have that change the
      * viewing position/angle.
      */
@@ -345,13 +345,13 @@ int main( int argc, char* argv[] )
      * handle the resize events properly with
      * glViewport.
      */
-    flags = SDL_OPENGL | SDL_FULLSCREEN;
+    flags = SDL_OPENGL | SDL_RESIZABLE;
 
     /*
      * Set the video mode
      */
     if( SDL_SetVideoMode( width, height, bpp, flags ) == 0 ) {
-        /* 
+        /*
          * This could happen for a variety of reasons,
          * including DISPLAY not being set, the specified
          * resolution not being available, etc.
