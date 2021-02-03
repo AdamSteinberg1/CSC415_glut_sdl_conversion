@@ -2,8 +2,8 @@
 #ifndef DRAW_TEXT
 #define DRAW_TEXT
 
-#include "globals.h"
 #include "opengl.h"
+#include "constants.h"
 #include <string>
 
 extern int viewMode;

@@ -34,7 +34,8 @@ void display(void)
    drawText();
 
 
-   glutSwapBuffers();
+   //SDL's version of glutSwapBuffers();
+   SDL_GL_SwapBuffers( );
 
 }
 

@@ -15,5 +15,5 @@ void updateRotations()
   angleY += angularVelocityY;
   angleZ += angularVelocityZ;
 
-  glutPostRedisplay();
+  //glutPostRedisplay();
 }
